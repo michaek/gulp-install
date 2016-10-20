@@ -16,6 +16,10 @@ var through2 = require('through2'),
       cmd: 'npm',
       args: ['install']
     },
+    'package.json#yarn': {
+      cmd: 'yarn',
+      args: []
+    },
     'requirements.txt': {
       cmd: 'pip',
       args: ['install', '-r', 'requirements.txt']
@@ -33,7 +37,13 @@ module.exports = exports = function install(opts) {
       if (!file.path) {
         cb();
       }
-      var cmd = clone(cmdMap[path.basename(file.path)]);
+      var filename = path.basename(file.path)
+
+      if (filename === 'package.json' && opts && opts.yarn) {
+        filename = filename + '#yarn'
+      }
+
+      var cmd = clone(cmdMap[filename]);
 
       if (cmd) {
         if (opts && opts.production) {

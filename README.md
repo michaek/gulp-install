@@ -155,6 +155,26 @@ gulp.src(__dirname + '/templates/**')
 ```
 
 
+### options.yarn
+
+**Type:** `Boolean`
+
+**Default:** `false`
+
+
+Set to `true` if `yarn` should be used to install dependencies from `package.json`.
+
+**Example:**
+
+```javascript
+var install = require("gulp-install");
+
+gulp.src(__dirname + '/templates/**')
+  .pipe(gulp.dest('./'))
+  .pipe(install({yarn: true}));  
+```
+
+
 ## License
 
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)

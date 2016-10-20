@@ -108,6 +108,31 @@ describe('gulp-install', function () {
     stream.end();
   });
 
+  it('should run `yarn` if stream contains `package.json` and `yarn` option is set', function (done) {
+    var file = fixture('package.json');
+
+    var stream = install({yarn: true});
+
+    stream.on('error', function(err) {
+      should.exist(err);
+      done(err);
+    });
+
+    stream.on('data', function () {
+    });
+
+    stream.on('end', function () {
+      commandRunner.run.called.should.equal(1);
+      commandRunner.run.commands[0].cmd.should.equal('yarn');
+      commandRunner.run.commands[0].args.should.eql([]);
+      done();
+    });
+
+    stream.write(file);
+
+    stream.end();
+  });
+
 
   it('should run `bower install --config.interactive=false` if stream contains `bower.json`', function (done) {
     var file = fixture('bower.json');
